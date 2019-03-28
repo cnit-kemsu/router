@@ -1,19 +1,19 @@
 import React from 'react';
-import { Router } from "./router";
+import { Router } from "./Router";
 
 const nonUndefined = value => value !== undefined;
 
 function match(pathname) {
   const route = pathname.split('/');
 
-  const endless = route[route.length - 1] === '...';
+  const endless = route[route.length - 1] === '*';
   if (!endless && route.length !== Router.currentRoute.length) return undefined;
   if (endless && route.length > Router.currentRoute.length + 1) return undefined;
 
   const props = { match: '' };
   for (const [index, entry] of Object.entries(route)) {
 
-    if (entry === '...') break;
+    if (entry === '*') break;
     const routerEntry = Router.currentRoute[index];
     if (entry[0] === ':') props[entry.substr(1)] = routerEntry;
     else if (entry !== routerEntry) return undefined;

@@ -1,2 +1,2 @@
-export { Router } from './src/classes/router';
-export { useRouting } from './src/hooks/use-routing';
+export { Router } from './src/classes/Router';
+export { useRouting } from './src/hooks/useRouting';

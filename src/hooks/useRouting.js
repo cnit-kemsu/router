@@ -1,6 +1,6 @@
 import { useMemo, useEffect } from 'react';
-import { useForceUpdate } from '@implicit/form';
-import { Routing } from '../classes/routing';
+import { useForceUpdate } from '@implicit/force-update';
+import { Routing } from '../classes/Routing';
 
 export function useRouting(routes) {
 

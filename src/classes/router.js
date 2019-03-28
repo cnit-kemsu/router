@@ -1,4 +1,4 @@
-import { Publisher } from '@implicit/form';
+import { Publisher } from '@implicit/publisher';
 import { QS } from './qs';
 
 function mapValues({ state, title, pathname, search }) {
