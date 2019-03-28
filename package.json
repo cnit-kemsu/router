@@ -1,13 +1,14 @@
 {
   "name": "@implicit/router",
   "scope": "@implicit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "author": "yo-yo",
   "license": "ISC",
   "eslintIgnore": [
     "build/**/*.js",
-    "dist/**/*.js"
+    "dist/**/*.js",
+    "node_modules/**/*.js"
   ],
   "peerDependencies": {
     "@implicit/force-update": "github:cnit-kemsu/force-update",
