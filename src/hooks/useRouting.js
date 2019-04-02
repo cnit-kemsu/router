@@ -1,5 +1,5 @@
 import { useMemo, useEffect } from 'react';
-import { useForceUpdate } from '@implicit/force-update';
+import { useForceUpdate } from '@kemsu/force-update';
 import { Routing } from '../classes/Routing';
 
 export function useRouting(routes) {
