@@ -1,6 +1,22 @@
 import React from 'react';
 import { Router } from "./Router";
 
+// const route1 = '/home/users/12/asd';
+// const route2 = '/home/users/';
+// const route3 = '/home';
+
+// const route = route2;
+
+// const routing1 = '^/home/users/(?<id>\\w*)$';
+// const routing2 = '/home/users/(?<id>\\w*)';
+// const routing3 = '/home/users/(?<id>\\w+)';
+// const routing4 = '/users/(?<id>\\w*)/asd';
+
+// console.log((new RegExp(routing1)).exec(route));
+// console.log((new RegExp(routing2)).exec(route));
+// console.log((new RegExp(routing3)).exec(route));
+// console.log((new RegExp(routing4)).exec(route));
+
 const nonUndefined = value => value !== undefined;
 
 function match(pathname) {
@@ -42,7 +58,7 @@ export class Routing {
 
   constructor(forceUpdate, routes) {
     this.forceUpdate = forceUpdate;
-    this._routes = routes;
+    this.routes = routes;
 
     this.handleChange = this.handleChange.bind(this);
     this.unsubscribeFromEvents = this.unsubscribeFromEvents.bind(this);
@@ -60,6 +76,7 @@ export class Routing {
   }
 
   handleChange() {
+    const routes = typeof this.routes === 'function' ? this.routes(this.match) : this.routes;
     const matches = Object.entries(this.routes)(path);
     this.forceUpdate();
   }
