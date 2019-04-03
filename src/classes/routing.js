@@ -17,7 +17,7 @@ function match(pathname) {
     const routerEntry = Router.currentRoute[index];
     if (entry[0] === ':') props[entry.substr(1)] = routerEntry;
     else if (entry !== routerEntry) return undefined;
-    props.match += '/' + routerEntry;
+    if (index > 0) props.match += '/' + routerEntry;
   }
   return props;
 }
@@ -41,9 +41,8 @@ export class Routing {
   }
 
   static Route(routes) {
-    return Object.entries(
-      typeof routes === 'function' ? routes() : routes
-    ).map(handleRoute)
+    return Object.entries(routes)
+    .map(handleRoute)
     .filter(nonUndefined);
   }
 

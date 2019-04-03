@@ -9,7 +9,8 @@ module.exports = {
   entry: './test/app.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js'
+    filename: 'main.js',
+    publicPath: '/'
   },
 
   module: {
@@ -50,6 +51,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 3000
+    port: 3000,
+    historyApiFallback: true
   }
 };
