@@ -27,16 +27,12 @@ export class Router {
   static currentRoute = location.pathname.split('/');
 
   static push(values) {
-    history.pushState(
-      ...mapValues(values)
-    );
+    mapValues(values) |> history.pushState(...#);
     Router.changeEvent.publish();
   }
 
   static replace(values) {
-    history.replaceState(
-      ...mapValues(values)
-    );
+    mapValues(values) |> history.replaceState(...#);
     Router.changeEvent.publish();
   }
 }

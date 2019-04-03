@@ -22,6 +22,14 @@ function match(pathname) {
   return props;
 }
 
+// function handleRoute([path, component], index) {
+//   return match(path)
+//   |> # && React.createElement(component, {
+//     key: 'route-' + index,
+//     ...#
+//   });
+// }
+
 function handleRoute([path, component], index) {
   return match(path)
   |> # && React.createElement(component, {
@@ -32,21 +40,27 @@ function handleRoute([path, component], index) {
 
 export class Routing {
 
-  constructor(forceUpdate) {
+  constructor(forceUpdate, routes) {
     this.forceUpdate = forceUpdate;
+    this._routes = routes;
 
     this.handleChange = this.handleChange.bind(this);
     this.unsubscribeFromEvents = this.unsubscribeFromEvents.bind(this);
     this.handleSubscriptions = this.handleSubscriptions.bind(this);
   }
 
-  static Route(routes) {
-    return Object.entries(routes)
+  get routes() {
+    return typeof this._routes === 'function' ? this._routes(this.match) : this._routes;
+  }
+
+  Route(routes) {
+    const result = Object.entries(routes)
     .map(handleRoute)
     .filter(nonUndefined);
   }
 
   handleChange() {
+    const matches = Object.entries(this.routes)(path);
     this.forceUpdate();
   }
 
