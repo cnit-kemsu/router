@@ -4,6 +4,7 @@ import { Router } from '../src/classes/Router';
 import { useRouting } from '../src/hooks/useRouting';
 
 function Subcomp1() {
+  console.log('render subcomp1');
   return (
     <div style={{ border: '1px solid blue' }}>
       <div>
@@ -14,6 +15,7 @@ function Subcomp1() {
 }
 
 function Subcomp2() {
+  console.log('render subcomp2');
   return (
     <div style={{ border: '1px solid blue' }}>
       <div>
@@ -23,22 +25,18 @@ function Subcomp2() {
   );
 }
 
-function subroutes(match) {
-  return {
-    [match + '/subroute1']: Subcomp1,
-    [match + '/subroute2']: Subcomp2
-  };
-}
+const subroutes = {
+  '/(?<id>\\w+)/subroute1$': Subcomp1,
+  '/subroute2$': Subcomp2
+};
 
-function Component1({ match, id }) {
-  const routing = useRouting(subroutes, match);
+function Component1({ id }) {
+  console.log('render comp1');
+  const routing = useRouting(subroutes);
   return (
     <div style={{ border: '1px solid black' }}>
       <div>
         Component1
-      </div>
-      <div>
-        match: {match}
       </div>
       <div>
         param "id": {id}
@@ -59,14 +57,12 @@ function Component1({ match, id }) {
   );
 }
 
-function Component2({ match, id }) {
+function Component2({ id }) {
+  console.log('render comp2');
   return (
     <div style={{ border: '1px solid black' }}>
       <div>
         Component2
-      </div>
-      <div>
-        match: {match}
       </div>
       <div>
         param "id": {id}
@@ -81,14 +77,12 @@ function Component2({ match, id }) {
   );
 }
 
-function Component3({ match }) {
+function Component3() {
+  console.log('render comp3');
   return (
     <div style={{ border: '1px solid black' }}>
       <div>
         Component3
-      </div>
-      <div>
-        match: {match}
       </div>
       <div>
         state: {JSON.stringify(Router.state)}
@@ -100,16 +94,15 @@ function Component3({ match }) {
   );
 }
 
-function routes() {
-  return {
-    '/route1/:id/*': Component1,
-    '/route1/subroute1/:id': Component2,
-    '/': Component3
-  };
-}
+const routes = {
+  '/route1/(?<id>\\d+)': Component1,
+  '/route1/subroute1/(?<id>\\w*)': Component2,
+  '^/$': Component3
+};
 
-function App() {
+function App1() {
 
+  console.log('render app');
   const routing = useRouting(routes);
 
   return (
@@ -117,8 +110,10 @@ function App() {
       <div>
         <button onClick={() => Router.push({ pathname: '/route1/10', state: { message: 'Hello!' } })}>Component 1</button>
         <button onClick={() => Router.push({ pathname: '/route1/10/subroute1', state: { message: 'Hello!' } })}>Component 1 -> Subcomp1</button>
+        <button onClick={() => Router.push({ pathname: '/route1/20/subroute1', state: { message: 'Hello!' } })}>Component 1 -> Subcomp1 - 20</button>
         <button onClick={() => Router.push({ pathname: '/route1/10/subroute2', state: { message: 'Hello!' } })}>Component 1 -> Subcomp2</button>
-        <button onClick={() => Router.push({ pathname: '/route1/subroute1/22', search: { page: 5 }, state: { message: 'Hello again!' } })}>Component 1</button>
+        <button onClick={() => Router.push({ pathname: '/route1/20/subroute2', state: { message: 'Hello!' } })}>Component 1 -> Subcomp2 - 20</button>
+        <button onClick={() => Router.push({ pathname: '/route1/subroute1/22', search: { page: 5 }, state: { message: 'Hello again!' } })}>Component 2</button>
         <button onClick={() => Router.push({ pathname: Router.pathname, search: { order: ['firstname', 'lastname'], filter: { name: 'John' } } })}>Change search</button>
         <button onClick={() => Router.push({ pathname: '' })}>Component 3</button>
       </div>
@@ -129,7 +124,13 @@ function App() {
   );
 }
 
+function App() {
+  return <div>
+    <App1/>
+  </div>;
+}
+
 ReactDOM.render(
-  <App />,
+  <App/>,
   document.getElementById('root')
 );

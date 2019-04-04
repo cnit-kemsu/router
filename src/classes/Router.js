@@ -15,7 +15,7 @@ function mapValues({ state, title, pathname, search }) {
 }
 
 export class Router {
-  static changeEvent = new Publisher();
+  static updateEvent = new Publisher();
 
   static get state() {
     return history.state;
@@ -28,19 +28,19 @@ export class Router {
 
   static push(values) {
     mapValues(values) |> history.pushState(...#);
-    Router.changeEvent.publish();
+    Router.updateEvent.publish();
   }
 
   static replace(values) {
     mapValues(values) |> history.replaceState(...#);
-    Router.changeEvent.publish();
+    Router.updateEvent.publish();
   }
 }
 
 function handlePopstate() {
   Router.search = QS.parse(location.search);
   Router.currentRoute = Router.pathname.split('/');
-  Router.changeEvent.publish();
+  Router.updateEvent.publish();
 }
 
 addEventListener('popstate', handlePopstate);
