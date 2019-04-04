@@ -100,7 +100,7 @@ const routes = {
   '^/$': Component3
 };
 
-function App1() {
+function App() {
 
   console.log('render app');
   const routing = useRouting(routes);
@@ -122,12 +122,6 @@ function App1() {
       </div>
     </div>
   );
-}
-
-function App() {
-  return <div>
-    <App1/>
-  </div>;
 }
 
 ReactDOM.render(
