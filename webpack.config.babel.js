@@ -1,12 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { DuplicatesPlugin } = require("inspectpack/plugin");
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { DuplicatesPlugin } from 'inspectpack/plugin';
 
-module.exports = {
+export default {
+  mode: 'development',
   devtool: 'inline-source-map',
   target: 'web',
-  entry: './test/app.js',
+
+  entry: './example/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
@@ -18,20 +19,18 @@ module.exports = {
       {
         test: /\.js$/,
         include: [
-          path.resolve(__dirname, 'test'),
-          path.resolve(__dirname, 'src'),
-          path.resolve(__dirname, 'node_modules/@kemsu')
-        ],
-        loader: 'babel-loader',
-        options: JSON.parse(fs.readFileSync('.babelrc'))
+          'node_modules/@kemsu',
+          'src',
+          'example'
+        ].map(incl => path.resolve(__dirname, incl)),
+        loader: 'babel-loader'
       }
     ]
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'router',
-      template: './test/index.html'
+      template: './example/index.html'
     }),
     new DuplicatesPlugin({})
   ],

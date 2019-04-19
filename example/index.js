@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from '../src/classes/Router';
-import { useRouting } from '../src/hooks/useRouting';
+import { useRoute } from '../src/hooks/useRoute';
 
 function Subcomp1() {
   console.log('render subcomp1');
@@ -25,14 +25,8 @@ function Subcomp2() {
   );
 }
 
-const subroutes = {
-  '/(?<id>\\w+)/subroute1$': props => <Subcomp1 {...props} />,
-  '/subroute2$': props => <Subcomp2 {...props} />
-};
-
 function Component1({ id }) {
   console.log('render comp1');
-  const routing = useRouting(subroutes);
   return (
     <div style={{ border: '1px solid black' }}>
       <div>
@@ -50,7 +44,8 @@ function Component1({ id }) {
       <div>
         <div>subroutes</div>
         <div>
-          {routing}
+          {useRoute('/(?<id>\\w+)/subroute1$', props => <Subcomp1 {...props} />)}
+          {useRoute('/subroute2$', props => <Subcomp2 {...props} />)}
         </div>
       </div>
     </div>
@@ -94,31 +89,26 @@ function Component3() {
   );
 }
 
-const routes = {
-  '/route1/(?<id>\\d+)': props => <Component1 {...props} />,
-  '/route1/subroute1/(?<id>\\w*)': props => <Component2 {...props} />,
-  '^/$': props => <Component3 {...props} />
-};
-
 function App() {
 
   console.log('render app');
-  const routing = useRouting(routes);
 
   return (
     <div>
       <div>
-        <button onClick={() => Router.push({ pathname: '/route1/10', state: { message: 'Hello!' } })}>Component 1</button>
-        <button onClick={() => Router.push({ pathname: '/route1/10/subroute1', state: { message: 'Hello!' } })}>Component 1 -> Subcomp1</button>
-        <button onClick={() => Router.push({ pathname: '/route1/20/subroute1', state: { message: 'Hello!' } })}>Component 1 -> Subcomp1 - 20</button>
-        <button onClick={() => Router.push({ pathname: '/route1/10/subroute2', state: { message: 'Hello!' } })}>Component 1 -> Subcomp2</button>
-        <button onClick={() => Router.push({ pathname: '/route1/20/subroute2', state: { message: 'Hello!' } })}>Component 1 -> Subcomp2 - 20</button>
-        <button onClick={() => Router.push({ pathname: '/route1/subroute1/22', search: { page: 5 }, state: { message: 'Hello again!' } })}>Component 2</button>
-        <button onClick={() => Router.push({ pathname: Router.pathname, search: { order: ['firstname', 'lastname'], filter: { name: 'John' } } })}>Change search</button>
-        <button onClick={() => Router.push({ pathname: '' })}>Component 3</button>
+        <button onClick={() => Router.push('/route1/10', { message: 'Hello!' }, 'Component 1' )}>Component 1</button>
+        <button onClick={() => Router.push('/route1/10/subroute1', { message: 'Hello!' })}>Component 1 -> Subcomp1</button>
+        <button onClick={() => Router.push('/route1/20/subroute1', { message: 'Hello!' })}>Component 1 -> Subcomp1 - 20</button>
+        <button onClick={() => Router.push('/route1/10/subroute2', { message: 'Hello!' })}>Component 1 -> Subcomp2</button>
+        <button onClick={() => Router.push('/route1/20/subroute2', { message: 'Hello!' })}>Component 1 -> Subcomp2 - 20</button>
+        <button onClick={() => Router.push('/route1/subroute1/22', { page: 5 }, { message: 'Hello again!' })}>Component 2</button>
+        <button onClick={() => Router.push(Router.path, { order: ['firstname', 'lastname'], filter: { name: 'John' } })}>Change search</button>
+        <button onClick={() => Router.push('')}>Component 3</button>
       </div>
       <div style={{ maxWidth: '400px' }}>
-        {routing}
+        {useRoute('/route1/(?<id>\\d+)', props => <Component1 {...props} />)}
+        {useRoute('/route1/subroute1/?(?<id>\\w+)?', props => <Component2 {...props} />)}
+        {useRoute('^/$', props => <Component3 {...props} />)}
       </div>
     </div>
   );

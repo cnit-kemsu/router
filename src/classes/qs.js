@@ -1,24 +1,28 @@
-function convert([key, value]) {
-  return JSON.stringify(value) |> encodeURI |> key + '=' + #;
+function toString([key, value]) {
+  return JSON.stringify(value)
+  |> encodeURI
+  |> key + '=' + #;
 }
 
-function extract(values, value) {
-  return value.split('=') |> {
-    ...values,
-    [#[0]]: decodeURI(#[1]) |> JSON.parse
-  };
+function fromString(values, value) {
+  return value.split('=')
+    |> {
+      ...values,
+      [#[0]]: decodeURI(#[1]) |> JSON.parse
+    };
 }
 
 export class QS {
 
   static stringify(values) {
-    return values === undefined ? '' :
-      Object.entries(values).map(convert).join('&') |> # && '?' + # || '';
+    return values === undefined ? ''
+    : Object.entries(values).map(toString).join('&')
+      |> # && '?' + # || '';
   }
 
-  static parse(search) {
-    return !search ? undefined :
-      search.substr(1).split('&').reduce(extract, {});
+  static parse(queryString) {
+    return !queryString ? undefined
+    : queryString.substr(1).split('&').reduce(fromString, {});
   }
 
 }
