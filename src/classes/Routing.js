@@ -3,6 +3,11 @@ import { Publisher } from '@kemsu/publisher';
 import { Router } from "./Router";
 //import { Subrouter } from '../comps/Subrouter';
 
+function toElement(component, params) {
+  if (typeof component === 'function') return component(params);
+  return component;
+}
+
 function mapToRegExp([path, component]) {
   return {
     path: new RegExp(path),
@@ -53,10 +58,11 @@ export class Routing {
 
         this.routing[index] = routing[index] === null ? null : {
           match: routing[index]?.[0],
-          element: React.createElement(this.routes[index].component, {
-            key: 'route-' + index,
-            ...routing[index].groups
-          })
+          element: toElement(this.routes[index].component, routing[index].groups)
+          // element: React.createElement(this.routes[index].component, {
+          //   key: 'route-' + index,
+          //   ...routing[index].groups
+          // })
         };
         shouldUpdate = true;
       }

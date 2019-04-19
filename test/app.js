@@ -26,8 +26,8 @@ function Subcomp2() {
 }
 
 const subroutes = {
-  '/(?<id>\\w+)/subroute1$': Subcomp1,
-  '/subroute2$': Subcomp2
+  '/(?<id>\\w+)/subroute1$': props => <Subcomp1 {...props} />,
+  '/subroute2$': props => <Subcomp2 {...props} />
 };
 
 function Component1({ id }) {
@@ -95,9 +95,9 @@ function Component3() {
 }
 
 const routes = {
-  '/route1/(?<id>\\d+)': Component1,
-  '/route1/subroute1/(?<id>\\w*)': Component2,
-  '^/$': Component3
+  '/route1/(?<id>\\d+)': props => <Component1 {...props} />,
+  '/route1/subroute1/(?<id>\\w*)': props => <Component2 {...props} />,
+  '^/$': props => <Component3 {...props} />
 };
 
 function App() {
