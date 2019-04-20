@@ -5,10 +5,11 @@ import { Route } from '../classes/Route';
 export function useRoute(path, output) {
 
   const forceUpdate = useForceUpdate();
-  const routing = (() => new Route(forceUpdate, path, output))
+  const route = (() => new Route(forceUpdate, path, output))
   |> useMemo(#, []);
 
-  useEffect(routing.handleUpdateEventSubscription, []);
+  useEffect(route.handleUpdateEventSubscription, []);
 
-  return routing.result();
+  route.test();
+  return route.result;
 }

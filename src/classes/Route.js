@@ -7,26 +7,26 @@ export class Route {
     this.matchtest = new RegExp(path);
     this.output = output;
 
-    this.test();
-
     this.handleUpdate = this.handleUpdate.bind(this);
     this.unsubscribeFromUpdateEvent = this.unsubscribeFromUpdateEvent.bind(this);
     this.handleUpdateEventSubscription = this.handleUpdateEventSubscription.bind(this);
   }
 
   test() {
-    const { 0: match, groups } = this.matchtest.exec(Router.path) || {};
+    if (this.currentPath === Router.path) return false;
+    this.currentPath = Router.path;
+
+    const { 0: match, groups: params } = this.matchtest.exec(this.currentPath) || {};
     if (this.match === match) return false;
     this.match = match;
-    this.params = groups;
-    return true;
-  }
 
-  result() {
-    if (this.match === undefined) return undefined;
-    return typeof this.output === 'function'
-      ? this.output(this.params)
-      : this.output;
+    this.result = match === undefined ? undefined : (
+      typeof this.output === 'function'
+        ? this.output(params)
+        : this.output
+    );
+
+    return true;
   }
 
   handleUpdate() {
