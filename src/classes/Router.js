@@ -1,5 +1,6 @@
 import { Publisher } from '@kemsu/publisher';
 import { QS } from './qs';
+import { clearMatches } from '../routing';
 
 export class Router {
   static updateEvent = new Publisher();
@@ -15,12 +16,14 @@ export class Router {
   static push(path, search, data) {
     Router.search = search;
     history.pushState(data, undefined, (path || '/') + QS.stringify(search));
+    clearMatches();
     Router.updateEvent.publish();
   }
 
   static replace(path, search, data) {
     Router.search = search;
     history.replaceState(data, undefined, (path || '/') + QS.stringify(search));
+    clearMatches();
     Router.updateEvent.publish();
   }
 }

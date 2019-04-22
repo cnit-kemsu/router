@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from '../src/classes/Router';
 import { useRoute } from '../src/hooks/useRoute';
+import { useDefaultRoute } from '../src/hooks/useDefaultRoute';
 
 function Subcomp1() {
   console.log('render subcomp1');
@@ -104,11 +105,13 @@ function App() {
         <button onClick={() => Router.push('/route1/subroute1/22', { page: 5 }, { message: 'Hello again!' })}>Component 2</button>
         <button onClick={() => Router.push(Router.path, { order: ['firstname', 'lastname'], filter: { name: 'John' } })}>Change search</button>
         <button onClick={() => Router.push('')}>Component 3</button>
+        <button onClick={() => Router.push('/notfound')}>To Not Found</button>
       </div>
       <div style={{ maxWidth: '400px' }}>
         {useRoute('/route1/(?<id>\\d+)', props => <Component1 {...props} />)}
         {useRoute('/route1/subroute1/?(?<id>\\w+)?', props => <Component2 {...props} />)}
         {useRoute('^/$', props => <Component3 {...props} />)}
+        {useDefaultRoute(() => <div>Page not found</div>)}
       </div>
     </div>
   );

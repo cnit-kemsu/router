@@ -1,4 +1,5 @@
 import { Router } from './Router';
+import { increaseMatches } from '../routing';
 
 export class Route {
 
@@ -25,6 +26,7 @@ export class Route {
         ? this.output(params)
         : this.output
     );
+    if (match !== undefined) increaseMatches();
 
     return true;
   }
