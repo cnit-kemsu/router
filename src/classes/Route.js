@@ -1,5 +1,4 @@
 import { Router } from './Router';
-import { increaseMatches } from '../routing';
 
 export class Route {
 
@@ -21,12 +20,14 @@ export class Route {
     if (this.match === match) return false;
     this.match = match;
 
-    this.result = match === undefined ? undefined : (
-      typeof this.output === 'function'
+    if (match === undefined) this.result = undefined;
+    else {
+      window.defaultRoute = false;
+      this.result = typeof this.output === 'function'
         ? this.output(params)
-        : this.output
-    );
-    if (match !== undefined) increaseMatches();
+        : this.output;
+    
+    }
 
     return true;
   }
