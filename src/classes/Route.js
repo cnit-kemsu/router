@@ -4,7 +4,7 @@ export class Route {
 
   constructor(forceUpdate, path, output) {
     this.forceUpdate = forceUpdate;
-    this.matchtest = new RegExp(path);
+    this.matchtest = typeof path === 'string' ? new RegExp(path) : path;
     this.output = output;
 
     this.handleUpdate = this.handleUpdate.bind(this);
@@ -22,7 +22,7 @@ export class Route {
 
     if (match === undefined) this.result = undefined;
     else {
-      window.defaultRoute = false;
+      window.handledRoute = true;
       this.result = typeof this.output === 'function'
         ? this.output(params)
         : this.output;

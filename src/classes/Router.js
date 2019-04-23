@@ -15,21 +15,21 @@ export class Router {
   static push(path, search, data) {
     Router.search = search;
     history.pushState(data, undefined, (path || '/') + QS.stringify(search));
-    window.defaultRoute = true;
+    window.handledRoute = false;
     Router.updateEvent.publish();
   }
 
   static replace(path, search, data) {
     Router.search = search;
     history.replaceState(data, undefined, (path || '/') + QS.stringify(search));
-    window.defaultRoute = true;
+    window.handledRoute = false;
     Router.updateEvent.publish();
   }
 }
 
 function handlePopstate() {
   Router.search = QS.parse(location.search);
-  window.defaultRoute = true;
+  window.handledRoute = false;
   Router.updateEvent.publish();
 }
 
