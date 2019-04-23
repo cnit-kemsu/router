@@ -21,7 +21,7 @@ export class QS {
   }
 
   static parse(queryString) {
-    return !queryString ? undefined
+    return !queryString ? {}
     : queryString.substr(1).split('&').reduce(fromString, {});
   }
 

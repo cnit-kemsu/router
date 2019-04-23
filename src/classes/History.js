@@ -23,7 +23,7 @@ export class History {
 }
 
 function handlePopstate() {
-  Location.search = QS.parse(location.search) || {};
+  Location.search = QS.parse(location.search);
   Location.handled = false;
   History.updateEvent.publish();
 }
