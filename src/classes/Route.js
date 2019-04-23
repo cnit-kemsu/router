@@ -30,7 +30,7 @@ export class Route {
     else {
       Location.handled = true;
       this.result = typeof this.output === 'function'
-        ? this.output(params, Location.search)
+        ? this.output({ ...params, ...Location.search })
         : this.output;
     }
 
