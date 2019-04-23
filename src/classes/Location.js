@@ -7,5 +7,5 @@ export class Location {
     return location.pathname;
   }
 
-  static search = QS.parse(location.search);
+  static search = QS.parse(location.search) || {};
 }

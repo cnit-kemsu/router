@@ -9,21 +9,21 @@ export class History {
     return history.state;
   }
 
-  static push(path, search, data) {
+  static push(path, search = {}, data) {
     Location.search = search;
     history.pushState(data, undefined, (path || '/') + QS.stringify(search));
     Location.handled = false;
     History.updateEvent.publish();
   }
 
-  static replace(path, search, data) {
+  static replace(path, search = {}, data) {
     Location.search = search;
     history.replaceState(data, undefined, (path || '/') + QS.stringify(search));
   }
 }
 
 function handlePopstate() {
-  Location.search = QS.parse(location.search);
+  Location.search = QS.parse(location.search) || {};
   Location.handled = false;
   History.updateEvent.publish();
 }
