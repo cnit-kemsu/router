@@ -1,4 +1,5 @@
-import { Router } from './Router';
+import { History } from './History';
+import { Location } from './Location';
 
 export class Route {
 
@@ -13,20 +14,24 @@ export class Route {
   }
 
   test() {
-    if (this.currentPath === Router.path) return false;
-    this.currentPath = Router.path;
+    const { pathname, search } = location;
+    if (this.result === undefined) {
+      if (this.path === pathname) return false;
+    } else if (this.path === pathname
+      && this.search === search) return false;
+    this.path = pathname;
 
-    const { 0: match, groups: params } = this.matchtest.exec(this.currentPath) || {};
-    if (this.match === match) return false;
+    const { 0: match, groups: params } = this.matchtest.exec(pathname) || {};
+    if (this.match === match && this.search === search) return false;
     this.match = match;
+    this.search = search;
 
     if (match === undefined) this.result = undefined;
     else {
-      window.handledRoute = true;
+      Location.handled = true;
       this.result = typeof this.output === 'function'
         ? this.output(params)
         : this.output;
-    
     }
 
     return true;
@@ -37,7 +42,7 @@ export class Route {
   }
 
   subscribeToUpdateEvent() {
-    this.updateSub = Router.updateEvent.subscribe(this.handleUpdate);
+    this.updateSub = History.updateEvent.subscribe(this.handleUpdate);
   }
 
   unsubscribeFromUpdateEvent() {

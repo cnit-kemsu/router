@@ -1,36 +1,31 @@
 import { Publisher } from '@kemsu/publisher';
+import { Location } from './Location';
 import { QS } from './qs';
 
-export class Router {
+export class History {
   static updateEvent = new Publisher();
 
   static get state() {
     return history.state;
   }
-  static get path() {
-    return location.pathname;
-  }
-  static search = QS.parse(location.search);
 
   static push(path, search, data) {
-    Router.search = search;
+    Location.search = search;
     history.pushState(data, undefined, (path || '/') + QS.stringify(search));
-    window.handledRoute = false;
-    Router.updateEvent.publish();
+    Location.handled = false;
+    History.updateEvent.publish();
   }
 
   static replace(path, search, data) {
-    Router.search = search;
+    Location.search = search;
     history.replaceState(data, undefined, (path || '/') + QS.stringify(search));
-    window.handledRoute = false;
-    Router.updateEvent.publish();
   }
 }
 
 function handlePopstate() {
-  Router.search = QS.parse(location.search);
-  window.handledRoute = false;
-  Router.updateEvent.publish();
+  Location.search = QS.parse(location.search);
+  Location.handled = false;
+  History.updateEvent.publish();
 }
 
 addEventListener('popstate', handlePopstate);

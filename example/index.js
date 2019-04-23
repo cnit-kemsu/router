@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from '../src/classes/Router';
+import { History } from '../src/classes/History';
+import { Location } from '../src/classes/Location';
 import { useRoute } from '../src/hooks/useRoute';
 
 function Subcomp1() {
@@ -36,10 +37,10 @@ function Component1({ id }) {
         param "id": {id}
       </div>
       <div>
-        state: {JSON.stringify(Router.state)}
+        state: {JSON.stringify(Location.state)}
       </div>
       <div>
-        search: {JSON.stringify(Router.search)}
+        search: {JSON.stringify(Location.search)}
       </div>
       <div>
         <div>subroutes</div>
@@ -63,10 +64,10 @@ function Component2({ id }) {
         param "id": {id}
       </div>
       <div>
-        state: {JSON.stringify(Router.state)}
+        state: {JSON.stringify(Location.state)}
       </div>
       <div>
-        search: {JSON.stringify(Router.search)}
+        search: {JSON.stringify(Location.search)}
       </div>
     </div>
   );
@@ -80,10 +81,10 @@ function Component3() {
         Component3
       </div>
       <div>
-        state: {JSON.stringify(Router.state)}
+        state: {JSON.stringify(Location.state)}
       </div>
       <div>
-        search: {JSON.stringify(Router.search)}
+        search: {JSON.stringify(Location.search)}
       </div>
     </div>
   );
@@ -96,15 +97,15 @@ function App() {
   return (
     <div>
       <div>
-        <button onClick={() => Router.push('/route1/10', { message: 'Hello!' }, 'Component 1' )}>Component 1</button>
-        <button onClick={() => Router.push('/route1/10/subroute1', { message: 'Hello!' })}>Component 1 -> Subcomp1</button>
-        <button onClick={() => Router.push('/route1/20/subroute1', { message: 'Hello!' })}>Component 1 -> Subcomp1 - 20</button>
-        <button onClick={() => Router.push('/route1/10/subroute2', { message: 'Hello!' })}>Component 1 -> Subcomp2</button>
-        <button onClick={() => Router.push('/route1/20/subroute2', { message: 'Hello!' })}>Component 1 -> Subcomp2 - 20</button>
-        <button onClick={() => Router.push('/route1/subroute1/22', { page: 5 }, { message: 'Hello again!' })}>Component 2</button>
-        <button onClick={() => Router.push(Router.path, { order: ['firstname', 'lastname'], filter: { name: 'John' } })}>Change search</button>
-        <button onClick={() => Router.push('')}>Component 3</button>
-        <button onClick={() => Router.push('/notfound')}>To Not Found</button>
+        <button onClick={() => History.push('/route1/10', { message: 'Hello!' }, 'Component 1' )}>Component 1</button>
+        <button onClick={() => History.push('/route1/10/subroute1', { message: 'Hello!' })}>Component 1 -> Subcomp1</button>
+        <button onClick={() => History.push('/route1/20/subroute1', { message: 'Hello!' })}>Component 1 -> Subcomp1 - 20</button>
+        <button onClick={() => History.push('/route1/10/subroute2', { message: 'Hello!' })}>Component 1 -> Subcomp2</button>
+        <button onClick={() => History.push('/route1/20/subroute2', { message: 'Hello!' })}>Component 1 -> Subcomp2 - 20</button>
+        <button onClick={() => History.push('/route1/subroute1/22', { page: 5 }, { message: 'Hello again!' })}>Component 2</button>
+        <button onClick={() => History.push(Location.path, { order: ['firstname', 'lastname'], filter: { name: 'John' } })}>Change search</button>
+        <button onClick={() => History.push('')}>Component 3</button>
+        <button onClick={() => History.push('/notfound')}>To Not Found</button>
       </div>
       <div style={{ maxWidth: '400px' }}>
         {useRoute('/route1/(?<id>\\d+)', props => <Component1 {...props} />)}
