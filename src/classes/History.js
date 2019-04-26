@@ -12,7 +12,6 @@ export class History {
   static push(path, search = {}, data) {
     Location.search = search;
     history.pushState(data, undefined, (path || '/') + QS.stringify(search));
-    Location.handled = false;
     History.updateEvent.publish();
   }
 
@@ -24,7 +23,6 @@ export class History {
 
 function handlePopstate() {
   Location.search = QS.parse(location.search);
-  Location.handled = false;
   History.updateEvent.publish();
 }
 

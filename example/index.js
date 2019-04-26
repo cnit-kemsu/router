@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { History } from '../src/classes/History';
 import { Location } from '../src/classes/Location';
 import { useRoute } from '../src/hooks/useRoute';
+import { Default } from '../src/comps/Deault';
 
 function Subcomp1() {
   console.log('render subcomp1');
@@ -109,10 +110,11 @@ function App() {
       </div>
       <div style={{ maxWidth: '400px' }}>
         route1/{useRoute('/route1/(?<id>\\d+)')?.id}
-        {useRoute('/route1/(?<id>\\d+)', props => <Component1 {...props} />)}
-        {useRoute(/\/route1\/subroute1\/?(?<id>\w+)?/, props => <Component2 {...props} />)}
-        {useRoute(/^\/$/, props => <Component3 {...props} />)}
-        {useRoute(() => <div>Page not found</div>)}
+        <Default output={() => <div>Page not found</div>}>
+          {useRoute('/route1/(?<id>\\d+)', props => <Component1 {...props} />)}
+          {useRoute(/\/route1\/subroute1\/?(?<id>\w+)?/, props => <Component2 {...props} />)}
+          {useRoute(/^\/$/, props => <Component3 {...props} />)}
+        </Default>
       </div>
     </div>
   );

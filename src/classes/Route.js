@@ -28,7 +28,6 @@ export class Route {
 
     if (match === undefined) this.result = undefined;
     else {
-      Location.handled = true;
       const props = { ...params, ...Location.search };
       if (this.output === undefined) this.result = props;
       else this.result = typeof this.output === 'function'
