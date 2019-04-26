@@ -108,6 +108,7 @@ function App() {
         <button onClick={() => History.push('/notfound')}>To Not Found</button>
       </div>
       <div style={{ maxWidth: '400px' }}>
+        route1/{useRoute('/route1/(?<id>\\d+)')?.id}
         {useRoute('/route1/(?<id>\\d+)', props => <Component1 {...props} />)}
         {useRoute(/\/route1\/subroute1\/?(?<id>\w+)?/, props => <Component2 {...props} />)}
         {useRoute(/^\/$/, props => <Component3 {...props} />)}

@@ -5,7 +5,7 @@ import { Route } from '../classes/Route';
 
 export function useRoute(path, output) {
 
-  if (output === undefined) {
+  if (output === undefined && typeof path !== 'string' && !(path instanceof RegExp)) {
     if (Location.handled === true) return;
     return typeof path === 'function'
       ? path()
