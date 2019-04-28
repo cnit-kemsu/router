@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { History } from '../src/classes/History';
 import { Location } from '../src/classes/Location';
 import { useRoute } from '../src/hooks/useRoute';
+import { useRoutes } from '../src/hooks/useRoutes';
 
 function Subcomp1() {
   console.log('render subcomp1');
@@ -90,6 +91,12 @@ function Component3() {
   );
 }
 
+const routes = [
+  ['/route1/(?<id>\\d+)', props => <Component1 {...props} />],
+  [/\/route1\/subroute1\/?(?<id>\w+)?/, props => <Component2 {...props} />],
+  [/^\/$/, props => <Component3 {...props} />]
+];
+
 function App() {
 
   console.log('render app');
@@ -107,11 +114,14 @@ function App() {
         <button onClick={() => History.push('')}>Component 3</button>
         <button onClick={() => History.push('/notfound')}>To Not Found</button>
       </div>
-      <div style={{ maxWidth: '400px' }}>
+      {/* <div style={{ maxWidth: '400px' }}>
         route1/{useRoute('/route1/(?<id>\\d+)')?.id}
         {useRoute('/route1/(?<id>\\d+)', props => <Component1 {...props} />)}
         {useRoute(/\/route1\/subroute1\/?(?<id>\w+)?/, props => <Component2 {...props} />)}
         {useRoute(/^\/$/, props => <Component3 {...props} />)}
+      </div> */}
+      <div style={{ maxWidth: '400px' }}>
+        {useRoutes(routes) || <div>Page no found</div>}
       </div>
     </div>
   );

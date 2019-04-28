@@ -1,16 +1,32 @@
 import { History } from './History';
 import { Location } from './Location';
 
-export class Route {
+function toRegExp([path, output]) {
+  return [
+    typeof path === 'string' ? new RegExp(path) : path,
+    output
+  ];
+}
 
-  constructor(forceUpdate, path, output) {
+export class Routing {
+
+  constructor(forceUpdate, routes) {
     this.forceUpdate = forceUpdate;
-    this.matching = typeof path === 'string' ? new RegExp(path) : path;
-    this.output = output;
+    this.routes = routes.map(toRegExp);
 
     this.handleUpdate = this.handleUpdate.bind(this);
     this.unsubscribeFromUpdateEvent = this.unsubscribeFromUpdateEvent.bind(this);
     this.handleUpdateEventSubscription = this.handleUpdateEventSubscription.bind(this);
+  }
+
+  matching(path) {
+    for (const [matching, output] of this.routes) {
+      const result = matching.exec(path);
+      if (result !== null) return [
+        result,
+        output
+      ];
+    }
   }
 
   test() {
@@ -21,7 +37,7 @@ export class Route {
       && this.search === search) return false;
     this.path = pathname;
 
-    const { 0: match, groups: params } = this.matching.exec(pathname) || {};
+    const [{ 0: match, groups: params }, output] = this.matching(pathname) || [{},];
     if (this.match === match && this.search === search) return false;
     this.match = match;
     this.search = search;
@@ -29,10 +45,10 @@ export class Route {
     if (match === undefined) this.result = undefined;
     else {
       const props = { ...params, ...Location.search };
-      if (this.output === undefined) this.result = props;
-      else this.result = typeof this.output === 'function'
-        ? this.output(props)
-        : this.output;
+      if (output === undefined) this.result = props;
+      else this.result = typeof output === 'function'
+        ? output(props)
+        : output;
     }
 
     return true;
