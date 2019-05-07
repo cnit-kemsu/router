@@ -1,6 +1,6 @@
 function toString([key, value]) {
   return JSON.stringify(value)
-  |> encodeURI
+  |> encodeURIComponent
   |> key + '=' + #;
 }
 
@@ -8,7 +8,7 @@ function fromString(values, value) {
   return value.split('=')
     |> {
       ...values,
-      [#[0]]: decodeURI(#[1]) |> JSON.parse
+      [#[0]]: decodeURIComponent(#[1]) |> JSON.parse
     };
 }
 
