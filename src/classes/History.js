@@ -19,6 +19,12 @@ export class History {
     Location.search = search;
     history.replaceState(data, undefined, (path || '/') + QS.stringify(search));
   }
+
+  static replaceAndUpdate(path, search = {}, data) {
+    Location.search = search;
+    history.replaceState(data, undefined, (path || '/') + QS.stringify(search));
+    History.updateEvent.publish();
+  }
 }
 
 function handlePopstate() {
