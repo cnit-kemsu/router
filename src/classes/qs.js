@@ -12,11 +12,15 @@ function fromString(values, value) {
     };
 }
 
+function nonNull([,value]) {
+  return Boolean(value);
+}
+
 export class QS {
 
   static stringify(values) {
     return values === undefined ? ''
-    : Object.entries(values).map(toString).join('&')
+    : Object.entries(values).filter(nonNull).map(toString).join('&')
       |> # && '?' + # || '';
   }
 
