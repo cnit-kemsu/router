@@ -1,6 +1,5 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { DuplicatesPlugin } from 'inspectpack/plugin';
 
 export default {
   mode: 'development',
@@ -31,8 +30,7 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: './example/index.html'
-    }),
-    new DuplicatesPlugin({})
+    })
   ],
 
   optimization: {
