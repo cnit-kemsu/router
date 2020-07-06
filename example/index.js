@@ -73,7 +73,7 @@ function Content2({ id }) {
 }
 
 function Content3() {
-  console.log('render Content2');
+  console.log('render Content3');
   return (
     <div style={{ border: '1px solid orange' }}>
       <div>
