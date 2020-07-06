@@ -103,10 +103,10 @@ function App() {
     <>
       <div>
         <button onClick={() => History.push('/main/10', { message: 'Hello!' }, 'Content 1' )}>Content 1</button><br/>
-        <button onClick={() => History.push('/main/10/subcontent1', { message: 'Hello!' })}>Content 1 -> SubContent 1</button><br/>
-        <button onClick={() => History.push('/main/20/subcontent1', { message: 'Hello!' })}>Content 1 -> SubContent 1 (id: 20)</button><br/>
-        <button onClick={() => History.push('/main/10/subcontent2', { message: 'Hello!' })}>Content 1 -> SubContent 2</button><br/>
-        <button onClick={() => History.push('/main/20/subcontent2', { message: 'Hello!' })}>Content 1 -> SubContent 2 (id: 20)</button><br/>
+        <button onClick={() => History.push('/main/10/subcontent1', { message: 'Hello!' })}>Content 1 -> Sub Content 1</button><br/>
+        <button onClick={() => History.push('/main/20/subcontent1', { message: 'Hello!' })}>Content 1 -> Sub Content 1 (id: 20)</button><br/>
+        <button onClick={() => History.push('/main/10/subcontent2', { message: 'Hello!' })}>Content 1 -> Sub Content 2</button><br/>
+        <button onClick={() => History.push('/main/20/subcontent2', { message: 'Hello!' })}>Content 1 -> Sub Content 2 (id: 20)</button><br/>
         <button onClick={() => History.push('/main/content2/22', { page: 5 }, { message: 'Hello again!' })}>Content 2</button><br/>
         <button onClick={() => History.push(Location.path, { order: ['firstname', 'lastname'], filter: { name: 'John' } })}>Change search</button><br/>
         <button onClick={() => History.push('')}>Content 3</button><br/>
